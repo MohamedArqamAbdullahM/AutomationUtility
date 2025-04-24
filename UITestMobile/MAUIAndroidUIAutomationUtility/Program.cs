@@ -9,20 +9,26 @@ class Program
 {
     static void Main()
     {
-        string documentFolder= "/Users/aravindkannanarayanarao/Documents";
+        string documentFolder= "/Users/mauitesting/Documents";
         // Appium 1
         List<Dictionary<string, string>> projects = new List<Dictionary<string, string>>
         {
 
         //Android platform
 
-        new Dictionary<string, string> { { "ProjectName", "maui-chat-tests" }, { "SampleName", "SfChatSample" }, { "ApplicationID", "com.companyname.sfchatsample" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_5_API_33" } },
-        new Dictionary<string, string> { { "ProjectName", "BusyIndicator-MAUI-tests" }, { "SampleName", "SfBusyIndicatorSample" }, { "ApplicationID", "com.companyname.SfBusyIndicatorSample" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_2_XL_API_28" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "AppointmentBorderFeature" }, { "ApplicationID", "com.companyname.appointmentborderfeature" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_2_XL" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointment" }, { "ApplicationID", "com.companyname.sfschedulerappointment" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_2_XL" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointmentProperty" }, { "ApplicationID", "com.companyname.sfschedulerappointmentproperty" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_2_XL" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointmentSpanIcon" }, { "ApplicationID", "com.companyname.sfschedulerappointmentspanicon" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_2_XL" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointmentTemplate" }, { "ApplicationID", "com.companyname.appointmentborderfeature" }, { "Platform", "UITests.Android" }, { "EmulatorCommand", "Pixel_2_XL" } },
+        
         
         //iOS platform
-
-         new Dictionary<string, string> { { "ProjectName", "maui-chat-tests" }, { "SampleName", "SfChatSample" }, { "ApplicationID", "com.companyname.sfchatsample" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "A345178C-6D96-4B7E-83BD-266E3B81B0F7" } },
-         new Dictionary<string, string> { { "ProjectName", "BusyIndicator-MAUI-tests" }, { "SampleName", "SfBusyIndicatorSample" }, { "ApplicationID", "com.companyname.SfBusyIndicatorSample" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "A345178C-6D96-4B7E-83BD-266E3B81B0F7" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "AppointmentBorderFeature" }, { "ApplicationID", "com.companyname.appointmentborderfeature" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "7A305099-0EB6-41B1-8CBD-E2394F03C27D" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointment" }, { "ApplicationID", "com.companyname.sfschedulerappointment" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "7A305099-0EB6-41B1-8CBD-E2394F03C27D" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointmentProperty" }, { "ApplicationID", "com.companyname.sfschedulerappointmentproperty" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "7A305099-0EB6-41B1-8CBD-E2394F03C27D" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointmentSpanIcon" }, { "ApplicationID", "com.companyname.sfschedulerappointmentspanicon" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "7A305099-0EB6-41B1-8CBD-E2394F03C27D" } },
+        new Dictionary<string, string> { { "ProjectName", "maui-scheduler-tests" }, { "SampleName", "SfSchedulerAppointmentTemplate" }, { "ApplicationID", "com.companyname.sfschedulerappointmenttemplate" }, { "Platform", "UITests.iOS" }, { "EmulatorCommand", "7A305099-0EB6-41B1-8CBD-E2394F03C27D" } },
         
         //MacCatalyst platform
 
@@ -41,7 +47,11 @@ class Program
     {
         if (project["Platform"] == "UITests.Android")
         {
-
+            if(project["EmulatorCommand"] == "Pixel_2_XL")
+            {
+            Console.WriteLine($"Starting emulator : {project["EmulatorCommand"]}...");
+            AndroidTool.BootDevice(project["EmulatorCommand"]);
+            }
             string emulator = $"{project["EmulatorCommand"]}";
             string appPath = $"{documentFolder}/Appium/{project["ProjectName"]}/UITest/Appium/{project["SampleName"]}/{project["SampleName"]}";
             string testPath = $"{documentFolder}/Appium/{project["ProjectName"]}/UITest/Appium/{project["SampleName"]}/{project["Platform"]}";
@@ -49,17 +59,7 @@ class Program
             string installCommand = $"adb install {appPath}/bin/Release/net9.0-android/publish/{project["ApplicationID"]}-Signed.apk";
             string TestRun = $"dotnet test {testPath}";
             Console.WriteLine($"Running commands for {project["ProjectName"]}...");
-            if(project["EmulatorCommand"] == "Pixel_5_API_33")
-            {
-            Console.WriteLine($"Starting emulator : {project["EmulatorCommand"]}...");
-            AndroidTool.BootDevice(project["EmulatorCommand"]);
-            }
-            else if(project["EmulatorCommand"] == "Pixel_2_XL_API_28")
-            {
-                AndroidTool.ShutdownDeviceCompletely("Pixel_5_API_33");
-                Console.WriteLine($"Starting emulator : {project["EmulatorCommand"]}...");
-                AndroidTool.BootDevice(project["EmulatorCommand"]);
-            }
+            
             Console.WriteLine($"Starting {project["SampleName"]} build and publish");
             CommondExcecute.ExecuteCommand($"cd {appPath} && {publishCommand}");
 
@@ -68,16 +68,7 @@ class Program
 
             Console.WriteLine($"UITest started for project : {project["SampleName"]} Sample : {project["SampleName"]} Platform : {project["Platform"]} ");
             CommondExcecute.ExecuteCommand(TestRun);
-            if(project["EmulatorCommand"] == "Pixel_5_API_33")
-            {
-            Console.WriteLine($"Closing emulator");
-            AndroidTool.ShutdownDevice(project["EmulatorCommand"]);
-            }
-            else if(project["EmulatorCommand"] == "Pixel_2_XL_API_28")
-            {
-            Console.WriteLine($"Closing emulator");
-            AndroidTool.ShutdownDevice(project["EmulatorCommand"]);
-            }
+           
 
         }
 
